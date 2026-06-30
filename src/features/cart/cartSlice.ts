@@ -6,8 +6,10 @@ type CartState = {
     items: CartItem[];
 };
 
+const savedCart: string | null = sessionStorage.getItem("cart");
+
 const initialState: CartState = {
-    items: [],
+    items: savedCart ? JSON.parse(savedCart) : [],
 };
 
 const cartSlice = createSlice({
@@ -36,9 +38,25 @@ const cartSlice = createSlice({
         clearCart: (state) => {
             state.items = [];
         },
+
+        decreaseQuantity: (state, action: PayloadAction<number>) => {
+
+            const existingItem = state.items.find((item) => item.id === action.payload);
+
+            if (existingItem && existingItem.count > 1) {
+                existingItem.count -= 1;
+            } else {
+                state.items = state.items.filter((item) => item.id !== action.payload);
+            }
+        },
     },
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+export const {
+    addToCart,
+    removeFromCart,
+    clearCart,
+    decreaseQuantity,
+} = cartSlice.actions;
 
 export const cartReducer = cartSlice.reducer;

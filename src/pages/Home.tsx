@@ -1,17 +1,13 @@
 import { useState } from "react";
 import { useQuery  } from "@tanstack/react-query";
 import { getAllProducts, getCategories, getProductsByCategory } from "../services/fakeStoreApi";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch } from "../app/hooks";
 import { addToCart } from "../features/cart/cartSlice";
 
 const PLACEHOLDER_IMAGE = "https://placehold.co/150x150?text=No+Image";
 
 function Home() {
     const dispatch = useAppDispatch();
-    const cartItems = useAppSelector((state) => state.cart.items)
-    const totalCartItems: number = cartItems.reduce((total, item) => {
-        return total + item.count;
-    }, 0);
 
     const [selectedCategory, setSelectedCategory] = useState("all")
 
@@ -33,6 +29,8 @@ function Home() {
 
     const {
         data: categories,
+        isLoading: categoriesLoading,
+        isError: categoriesIsError,
     } = useQuery({
         queryKey: ["categories"],
         queryFn: getCategories,
@@ -49,14 +47,17 @@ function Home() {
     return(
         <main>
             <h1>Fake Store Products</h1>
-            <p>Cart Items: {totalCartItems}</p>
 
             <label htmlFor="category">Choose a category: </label>
+
+            {categoriesLoading && <p>Loading categories...</p>}
+            {categoriesIsError && <p>Failed to load categories.</p>}
 
             <select
                 id="category"
                 value={selectedCategory}
                 onChange={(event) => setSelectedCategory(event.target.value)}
+                disabled={categoriesLoading || categoriesIsError}
             >
                 <option value="all">All Products</option>
 
@@ -70,7 +71,7 @@ function Home() {
             {products?.map((product) => (
                 <div key={product.id}>
                     <h2>{product.title}</h2>
-                    <p>${product.price}</p>
+                    <p>${product.price.toFixed(2)}</p>
                     <p>{product.category}</p>
                     <p>{product.description}</p>
                     <p>Rating: {product.rating.rate}</p>

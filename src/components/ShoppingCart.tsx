@@ -1,5 +1,10 @@
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { removeFromCart, clearCart } from "../features/cart/cartSlice";
+import {
+    addToCart,
+    removeFromCart,
+    clearCart,
+    decreaseQuantity,
+} from "../features/cart/cartSlice";
 import { useState, useEffect } from "react";
 
 export function ShoppingCart() {
@@ -16,7 +21,12 @@ export function ShoppingCart() {
     }, 0);
 
     useEffect(() => {
-        sessionStorage.setItem("cart", JSON.stringify(cartItems));
+        if (cartItems.length > 0){
+            setCheckoutMessage("");
+            sessionStorage.setItem("cart", JSON.stringify(cartItems));
+        } else {
+            sessionStorage.removeItem("cart");
+        }
     }, [cartItems]);
 
     if (cartItems.length === 0) {
@@ -43,6 +53,22 @@ export function ShoppingCart() {
                     <h2>{item.title}</h2>
                     <img src={item.image} alt={item.title} width="100" />
                     <p>Quantity: {item.count}</p>
+                    <div className="plus-minus-buttons">
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={() => dispatch(addToCart(item))}
+                        >
+                            +
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-warning"
+                            onClick={() => dispatch(decreaseQuantity(item.id))}
+                        >
+                            -
+                        </button>
+                    </div>
                     <p>${(item.price * item.count).toFixed(2)}</p>
                     <button
                         type="button"
