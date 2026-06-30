@@ -25,7 +25,7 @@ export async function getCategories(): Promise<string[]> {
 export async function getProductsByCategory(
     category: string
 ): Promise<Product[]> {
-    const response = await fetch(`${BASE_URL}/products/category/${category}`);
+    const response = await fetch(`${BASE_URL}/products/category/${encodeURIComponent(category)}`);
 
     if (!response.ok) {
         throw new Error("Failed to fetch products by category.");
