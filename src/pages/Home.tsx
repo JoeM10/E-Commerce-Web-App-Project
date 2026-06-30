@@ -45,50 +45,59 @@ function Home() {
     }
 
     return(
-        <main>
-            <h1>Fake Store Products</h1>
+        <main className="section-card">
+            <div className="section-header">
+                <h2>Products</h2>
+            </div>
 
-            <label htmlFor="category">Choose a category: </label>
+            <div className="category-controls">
+                <label htmlFor="category" className="form-label">Choose a category: </label>
 
-            {categoriesLoading && <p>Loading categories...</p>}
-            {categoriesIsError && <p>Failed to load categories.</p>}
+                {categoriesLoading && <p className="text-muted">Loading categories...</p>}
+                {categoriesIsError && <p className="text-danger">Failed to load categories.</p>}
 
-            <select
-                id="category"
-                value={selectedCategory}
-                onChange={(event) => setSelectedCategory(event.target.value)}
-                disabled={categoriesLoading || categoriesIsError}
-            >
-                <option value="all">All Products</option>
+                <select
+                    id="category"
+                    value={selectedCategory}
+                    onChange={(event) => setSelectedCategory(event.target.value)}
+                    disabled={categoriesLoading || categoriesIsError}
+                >
+                    <option value="all">All Products</option>
 
-                {categories?.map((category) => (
-                    <option key={category} value={category}>
-                        {category}
-                    </option>
+                    {categories?.map((category) => (
+                        <option key={category} value={category}>
+                            {category}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="product-grid">
+                {products?.map((product) => (
+                    <article className="product-card" key={product.id}>
+                        <h3>{product.title}</h3>
+                        <img
+                            src={product.image}
+                            alt={product.title}
+                            width="150"
+                            onError={(event) => {
+                                event.currentTarget.onerror = null;
+                                event.currentTarget.src = PLACEHOLDER_IMAGE;
+                            }}
+                        />
+                        <p className="product-price">${product.price.toFixed(2)}</p>
+                        <p className="product-category">{product.category}</p>
+                        <p className="product-description">{product.description}</p>
+                        <p className="product-rating">Rating: {product.rating.rate}</p>
+                        <button
+                            onClick={() => dispatch(addToCart(product))}
+                            className="btn btn-primary w-100"
+                        >
+                            Add to Cart
+                        </button>
+                    </article>
                 ))}
-            </select>
-
-            {products?.map((product) => (
-                <div key={product.id}>
-                    <h2>{product.title}</h2>
-                    <p>${product.price.toFixed(2)}</p>
-                    <p>{product.category}</p>
-                    <p>{product.description}</p>
-                    <p>Rating: {product.rating.rate}</p>
-                    <img
-                        src={product.image}
-                        alt={product.title}
-                        width="150"
-                        onError={(event) => {
-                            event.currentTarget.onerror = null;
-                            event.currentTarget.src = PLACEHOLDER_IMAGE;
-                        }}
-                    />
-                    <button onClick={() => dispatch(addToCart(product))}>
-                        Add to Cart
-                    </button>
-                </div>
-            ))}
+            </div>
         </main>
     );
 }

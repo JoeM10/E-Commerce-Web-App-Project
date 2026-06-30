@@ -31,10 +31,10 @@ export function ShoppingCart() {
 
     if (cartItems.length === 0) {
         return(
-            <main>
-                {checkoutMessage && <p>{checkoutMessage}</p>}
-                <p>Your cart is empty.</p>
-            </main>
+            <aside className="section-card cart-section">
+                {checkoutMessage && <p className="alert alert-success">{checkoutMessage}</p>}
+                <p className="empty-cart">Your cart is empty.</p>
+            </aside>
         );
     }
 
@@ -44,50 +44,64 @@ export function ShoppingCart() {
     }
 
     return(
-        <main>
+        <aside className="section-card cart-section">
             <h1>Items in Cart:</h1>
-            <p>Total items in cart: {totalCartItems}</p>
 
             {cartItems.map((item) => (
-                <div key={item.id}>
-                    <h2>{item.title}</h2>
-                    <img src={item.image} alt={item.title} width="100" />
-                    <p>Quantity: {item.count}</p>
-                    <div className="plus-minus-buttons">
+                <div className="cart-item" key={item.id}>
+                    <img className="cart-item-image" src={item.image} alt={item.title} />
+
+                    <div className="cart-item-details">
+                        <h2>{item.title}</h2>
+                        <p>Quantity: {item.count}</p>
+                        <p className="cart-item-subtotal">
+                            Subtotal: ${(item.price * item.count).toFixed(2)}
+                        </p>
+                    </div>
+
+                    <div className="cart-item-actions">
+                        <div className="quantity-controls">
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={() => dispatch(addToCart(item))}
+                                >
+                                +
+                            </button>
+
+                            <button
+                                type="button"
+                                className="btn btn-warning"
+                                onClick={() => dispatch(decreaseQuantity(item.id))}
+                                >
+                                -
+                            </button>
+                        </div>
+
                         <button
                             type="button"
-                            className="btn btn-primary"
-                            onClick={() => dispatch(addToCart(item))}
-                        >
-                            +
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-warning"
-                            onClick={() => dispatch(decreaseQuantity(item.id))}
-                        >
-                            -
+                            className="btn btn-danger"
+                            onClick={() => dispatch(removeFromCart(item.id))}
+                            >
+                            Remove
                         </button>
                     </div>
-                    <p>${(item.price * item.count).toFixed(2)}</p>
-                    <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={() => dispatch(removeFromCart(item.id))}
-                    >
-                        Remove
-                    </button>
                 </div>
             ))}
+            <div className="cart-footer">
+                <div>
+                    <h3>Total Cart Price: ${totalCartPrice.toFixed(2)}</h3>
+                    <p>Total items in cart: {totalCartItems}</p>
+                </div>
 
-            <h3>Total Cart Price: ${totalCartPrice.toFixed(2)}</h3>
-            <button
-                type="button"
-                className="btn btn-success"
-                onClick={handleCheckout}
-            >
-                Checkout
-            </button>
-        </main>
+                <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={handleCheckout}
+                    >
+                    Checkout
+                </button>
+            </div>
+        </aside>
     );
 }
