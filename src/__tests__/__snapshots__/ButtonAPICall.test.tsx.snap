@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ButtonAPICall Component matches the snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <h1>
+      Welcome
+    </h1>
+    <button>
+      Fetch Todos
+    </button>
+  </div>
+</DocumentFragment>
+`;
