@@ -1,10 +1,12 @@
 import Home from "./pages/Home";
 import { ShoppingCart } from "./components/ShoppingCart";
 import { useEffect, useState } from "react";
-import { onAuthStateChanged, signOut, type User } from "firebase/auth";
+import { onAuthStateChanged, type User } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import { logoutUser } from "./services/authServices";
+import { Profile } from "./components/Profile";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -32,7 +34,7 @@ function App() {
                 className="btn btn-outline-light btn-sm"
                 onClick={async () => {
                   try {
-                    await signOut(auth);
+                    await logoutUser();
                   } catch (err) {
                     console.error("Sign out error:", err);
                   }
@@ -40,6 +42,7 @@ function App() {
               >
                 Logout
               </button>
+              <Profile uid={currentUser.uid} />
             </div>
           ) : (
             <form
