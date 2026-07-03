@@ -7,6 +7,8 @@ import { useState } from "react";
 import { useQuery  } from "@tanstack/react-query";
 import { useAppDispatch } from "../app/hooks";
 import { addToCart } from "../features/cart/cartSlice";
+import { Link } from "react-router";
+import type { Product } from "../types/product";
 
 const PLACEHOLDER_IMAGE = "https://placehold.co/150x150?text=No+Image";
 
@@ -14,6 +16,7 @@ function Home() {
     const dispatch = useAppDispatch();
 
     const [selectedCategory, setSelectedCategory] = useState("all")
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
     const {
         data: products,
@@ -54,6 +57,10 @@ function Home() {
                 <h2>Products</h2>
             </div>
 
+            <Link to="/create-product">
+                <button className="btn bg-warning">Create Product</button>
+            </Link>
+
             <div className="category-controls">
                 <label htmlFor="category" className="form-label">Choose a category: </label>
 
@@ -75,6 +82,13 @@ function Home() {
                     ))}
                 </select>
             </div>
+            
+            {selectedProduct && (
+                <section>
+                    <h2>Editing Product</h2>
+                    <p>{selectedProduct.title}</p>
+                </section>
+            )}
 
             <div className="product-grid">
                 {products?.map((product) => (
@@ -98,6 +112,12 @@ function Home() {
                             className="btn btn-primary w-100"
                         >
                             Add to Cart
+                        </button>
+                        <button
+                            onClick={() => setSelectedProduct(product)}
+                            className="btn btn-secondary w-100 mt-2"
+                        >
+                            Edit Product
                         </button>
                     </article>
                 ))}

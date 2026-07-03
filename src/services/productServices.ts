@@ -1,7 +1,9 @@
 import {
     addDoc,
     collection,
-    getDocs
+    doc,
+    getDocs,
+    updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import type { Product } from "../types/product";
@@ -35,4 +37,13 @@ export async function createProduct(product: Omit<Product, "id">): Promise<strin
     const productDocRef = await addDoc(productsCollectionRef, product);
 
     return productDocRef.id;
+}
+
+export async function updateProduct(
+    productId: string,
+    productUpdates: Partial<Omit<Product, "id">>
+) {
+    const productDocRef = doc(db, "products", productId);
+
+    await updateDoc(productDocRef, productUpdates);
 }

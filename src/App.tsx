@@ -7,7 +7,8 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import { logoutUser } from "./services/authServices";
 import { Profile } from "./components/Profile";
-import { ProductForm } from "./components/ProductForm";
+import { Routes, Route } from "react-router";
+import { CreateProduct } from "./pages/CreateProduct";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -80,7 +81,10 @@ function App() {
       </header>
 
       <div className="container pb-5">
-        <Home />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/create-product" element={<CreateProduct />} />
+        </Routes>
         <ShoppingCart />
       </div>
     </div>
