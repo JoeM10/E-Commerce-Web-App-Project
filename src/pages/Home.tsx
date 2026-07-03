@@ -1,6 +1,10 @@
+import {
+    getAllProducts,
+    getCategories,
+    getProductsByCategory,
+} from "../services/productServices";
 import { useState } from "react";
 import { useQuery  } from "@tanstack/react-query";
-import { getAllProducts, getCategories, getProductsByCategory } from "../services/fakeStoreApi";
 import { useAppDispatch } from "../app/hooks";
 import { addToCart } from "../features/cart/cartSlice";
 

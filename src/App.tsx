@@ -7,6 +7,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import { logoutUser } from "./services/authServices";
 import { Profile } from "./components/Profile";
+import { ProductForm } from "./components/ProductForm";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
