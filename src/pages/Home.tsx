@@ -1,4 +1,5 @@
 import {
+    deleteProduct,
     getAllProducts,
     getCategories,
     getProductsByCategory,
@@ -70,6 +71,23 @@ function Home() {
         } finally {
             setIsSavingProduct(false);
         }
+    }
+
+    async function handleDeleteProduct(productId: string) {
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this product? This cannot be undone."
+        );
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        await deleteProduct(productId);
+
+        await queryClient.invalidateQueries({ queryKey: ["products"] });
+        await queryClient.invalidateQueries({ queryKey: ["categories"] });
+
+        setSelectedProduct(null);
     }
 
     if (isLoading) {
@@ -204,6 +222,13 @@ function Home() {
                         className="btn btn-outline-secondary mt-2 ms-2"
                     >
                         Cancel Editing
+                    </button>
+
+                    <button
+                        onClick={() => handleDeleteProduct(selectedProduct.id)}
+                        className="btn btn-danger mt-2 ms-2"
+                    >
+                        Delete Product
                     </button>
                 </section>
             )}

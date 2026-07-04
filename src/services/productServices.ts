@@ -48,3 +48,9 @@ export async function updateProduct(
 
     await updateDoc(productDocRef, productUpdates);
 }
+
+export async function deleteProduct(productId: string) {
+    const productDocRef = doc(db, "products", productId);
+
+    await deleteDoc(productDocRef);
+}
