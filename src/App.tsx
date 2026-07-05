@@ -6,10 +6,11 @@ import { auth } from "./firebaseConfig";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import { logoutUser } from "./services/authServices";
-import { Profile } from "./components/Profile";
 import { Routes, Route } from "react-router";
+import { NavBar } from "./components/NavBar";
 import { CreateProduct } from "./pages/CreateProduct";
 import { OrderHistoryPage } from "./pages/OrderHistoryPage";
+import { ProfilePage } from "./pages/ProfilePage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -26,30 +27,15 @@ function App() {
 
   return (
     <div className="app-page">
+      <NavBar
+        currentUser={currentUser}
+        onLogout={async () => await logoutUser()}
+      />
       <header className="app-header">
         <h1>Fake Store</h1>
         <p>Browse products, filter by category, and manage your cart.</p>
         <div className="mt-3">
-          {currentUser ? (
-            <div className="auth-info d-flex flex-wrap align-items-center gap-2">
-              <span>Signed in as: {currentUser.email}</span>
-              <button
-                className="btn btn-outline-light btn-sm"
-                onClick={async () => {
-                  try {
-                    await logoutUser();
-                  } catch (err) {
-                    console.error("Sign out error:", err);
-                  }
-                }}
-              >
-                Logout
-              </button>
-
-              <Profile uid={currentUser.uid} />
-
-            </div>
-          ) : (
+          {!currentUser && (
             <form
               className="auth-forms row g-2 align-items-start"
               onSubmit={(e) => e.preventDefault()}
@@ -63,6 +49,7 @@ function App() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
+
               <div className="col-12 col-md-4">
                 <input
                   className="form-control"
@@ -72,15 +59,17 @@ function App() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+
               <div className="col-12 col-md-auto">
                 <Login email={email} password={password} />
               </div>
+
               <div className="col-12 col-md-auto">
                 <Register email={email} password={password} />
               </div>
             </form>
           )}
-        </div>
+        </div>      
       </header>
 
       <div className="container pb-5">
@@ -94,6 +83,16 @@ function App() {
                 <OrderHistoryPage userId={currentUser.uid} />
               ) : (
                 <p> Please log in to view your order history.</p>
+              )
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              currentUser ? (
+                <ProfilePage userId={currentUser.uid} />
+              ) : (
+                <p>Please log in to view your profile.</p>
               )
             }
           />
