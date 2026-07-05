@@ -6,6 +6,8 @@ import {
     decreaseQuantity,
 } from "../features/cart/cartSlice";
 import { useState, useEffect } from "react";
+import { createOrder } from "../services/orderServices";
+import { auth } from "../firebaseConfig";
 
 export function ShoppingCart() {
 
@@ -38,14 +40,31 @@ export function ShoppingCart() {
         );
     }
 
-    function handleCheckout() {
+    async function handleCheckout() {
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+            setCheckoutMessage("Please log in before checking out.");
+            return;
+        }
+
+        await createOrder(
+            currentUser.uid,
+            currentUser.email,
+            cartItems,
+            totalCartPrice,
+            totalCartItems
+        );
+
         dispatch(clearCart());
-        setCheckoutMessage("Checkout successful! Your cart has been cleared.");
+        setCheckoutMessage("Checkout successful! Your order has been placed.");
     }
 
     return(
         <aside className="section-card cart-section">
             <h1>Items in Cart:</h1>
+
+            {checkoutMessage && <p className="alert alert-warning">{checkoutMessage}</p>}
 
             {cartItems.map((item) => (
                 <div className="cart-item" key={item.id}>

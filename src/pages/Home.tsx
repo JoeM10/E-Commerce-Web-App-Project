@@ -108,6 +108,10 @@ function Home() {
                 <button className="btn bg-warning">Create Product</button>
             </Link>
 
+            <Link to="/order-history">
+                <button className="btn btn-info ms-2">Order History</button>
+            </Link>
+
             <div className="category-controls">
                 <label htmlFor="category" className="form-label">Choose a category: </label>
 

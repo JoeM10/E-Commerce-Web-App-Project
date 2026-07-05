@@ -9,6 +9,7 @@ import { logoutUser } from "./services/authServices";
 import { Profile } from "./components/Profile";
 import { Routes, Route } from "react-router";
 import { CreateProduct } from "./pages/CreateProduct";
+import { OrderHistoryPage } from "./pages/OrderHistoryPage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -44,7 +45,9 @@ function App() {
               >
                 Logout
               </button>
+
               <Profile uid={currentUser.uid} />
+
             </div>
           ) : (
             <form
@@ -84,6 +87,16 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create-product" element={<CreateProduct />} />
+          <Route
+            path="/order-history"
+            element={
+              currentUser ? (
+                <OrderHistoryPage userId={currentUser.uid} />
+              ) : (
+                <p> Please log in to view your order history.</p>
+              )
+            }
+          />
         </Routes>
         <ShoppingCart />
       </div>
