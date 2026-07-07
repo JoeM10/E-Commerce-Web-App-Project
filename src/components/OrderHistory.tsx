@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserOrders } from "../services/orderServices";
 import type { Order } from "../types/order";
+import { Link } from "react-router";
 
 interface OrderHistoryProps {
     userId: string;
@@ -21,7 +22,14 @@ export function OrderHistory({ userId }: OrderHistoryProps) {
 
     return (
         <section>
-            <h2>Order History</h2>
+            <div className="d-flex justify-content-between">
+                <h2>Order History</h2>
+                <div className="d-flex justify-content-end">
+                    <Link to="/">
+                        <button className="btn btn-primary ms-2">Home</button>
+                    </Link>
+                </div>
+            </div>
             <p>Your Orders:</p>
 
             {orders.length === 0 && <p>No orders found.</p>}

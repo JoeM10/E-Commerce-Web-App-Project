@@ -262,13 +262,22 @@ function Home() {
                 ))}
             </div>
             
-            <Link to="/create-product">
-                <button className="btn bg-warning">Create Product</button>
-            </Link>
+            <div className="navigation-buttons mt-4 d-flex justify-content-between">
+                <div>
+                    <Link to="/cart">
+                        <button className="btn btn-success ms-2">Go to Cart</button>
+                    </Link>
+                </div>
+                <div>
+                    <Link to="/create-product">
+                        <button className="btn bg-warning">Create Product</button>
+                    </Link>
 
-            <Link to="/order-history">
-                <button className="btn btn-info ms-2">Order History</button>
-            </Link>
+                    <Link to="/order-history">
+                        <button className="btn btn-info ms-2">Order History</button>
+                    </Link>
+                </div>
+            </div>
         </main>
     );
 }

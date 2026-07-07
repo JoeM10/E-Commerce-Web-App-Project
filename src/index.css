@@ -257,3 +257,171 @@ body {
     margin: 0 auto;
   }
 }
+
+/* ---------- Global Responsive Layout ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+.app-page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+button,
+.btn,
+input,
+textarea,
+select {
+  max-width: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* ---------- Tablet / Small Laptop ---------- */
+
+@media (max-width: 900px) {
+  .app-header {
+    padding: 2.25rem 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .app-header h1 {
+    font-size: 2.4rem;
+  }
+
+  .section-card {
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+/* ---------- Phone Screens ---------- */
+
+@media (max-width: 600px) {
+  body {
+    min-width: 0;
+  }
+
+  .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .app-header {
+    padding: 1.75rem 0.75rem;
+    text-align: left;
+  }
+
+  .app-header h1 {
+    font-size: 2rem;
+  }
+
+  .app-header p {
+    font-size: 1rem;
+  }
+
+  .section-card {
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-header {
+    margin-bottom: 1rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .category-controls {
+    max-width: 100%;
+  }
+
+  .category-controls select {
+    width: 100%;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .product-card h3 {
+    min-height: auto;
+  }
+
+  .btn {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-top: 0.5rem;
+  }
+
+  .auth-forms .btn {
+    width: 100%;
+  }
+}
+
+/* ---------- NavBar Responsive Layout ---------- */
+
+.navbar {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.navbar-user-email {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    align-items: flex-start;
+  }
+
+  .navbar-brand {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .navbar-nav {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .navbar-user {
+    width: 100%;
+    margin-left: 0 !important;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .navbar-user-email {
+    max-width: 100%;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .navbar-logout-button {
+    width: auto;
+  }
+}

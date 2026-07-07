@@ -44,7 +44,7 @@ export function NavBar({ currentUser, onLogout }: NavBarProps) {
                 <span aria-hidden="true">🛒</span>
 
                 {totalCartItems > 0 && (
-                    <span className="position-absolute top-40 start-100 translate-middle badge rounded-pill bg-danger">
+                    <span className="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger">
                         {totalCartItems}
                     </span>
                 )}
@@ -52,14 +52,14 @@ export function NavBar({ currentUser, onLogout }: NavBarProps) {
         </div>
 
         {currentUser && (
-            <div className="ms-auto d-flex align-items-center gap-2">
-                <span className="navbar-text">
+            <div className="navbar-user ms-auto d-flex align-items-center gap-2">
+                <span className="navbar-text navbar-user-email">
                     Signed in as: {currentUser.email}
                 </span>
 
                 <button
                     type="button"
-                    className="btn btn-outline-danger btn-sm"
+                    className="btn btn-outline-danger btn-sm navbar-logout-button"
                     onClick={onLogout}
                 >
                     Logout

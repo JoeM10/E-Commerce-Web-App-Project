@@ -32,61 +32,97 @@ export function ProductForm() {
 
 
     return (
-        <section>
-            <h2>Create Product</h2>
-
-            {successMessage && <p>{successMessage}</p>}
-
-            <div>
-                <label htmlFor="title">Title</label>
-                <input
-                    id="title"
-                    type="text"
-                    value={title}
-                    onChange={(event) => setTitle(event.target.value)}
-                />
+        <section className="section-card product-form-card">
+            <div className="section-header">
+                <h2>Create Product</h2>
+                <p>Add a new product to your Firestore product collection.</p>
             </div>
 
-            <div>
-                <label htmlFor="price">Price</label>
-                <input
-                    id="price"
-                    type="number"
-                    value={price}
-                    onChange={(event) => setPrice(event.target.value)}
-                />
-            </div>
+            {successMessage && (
+                <p className="alert alert-success">{successMessage}</p>
+            )}
 
-            <div>
-                <label htmlFor="description">Description</label>
-                <textarea
-                    id="description"
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                />
-            </div>
+            <div className="row g-3">
+                <div className="col-12">
+                    <label htmlFor="title" className="form-label">
+                        Title
+                    </label>
+                    <input
+                        id="title"
+                        className="form-control"
+                        type="text"
+                        value={title}
+                        onChange={(event) => setTitle(event.target.value)}
+                        placeholder="Example: Wireless Keyboard"
+                    />
+                </div>
 
-            <div>
-                <label htmlFor="category">Category</label>
-                <input
-                    id="category"
-                    type="text"
-                    value={category}
-                    onChange={(event) => setCategory(event.target.value)}
-                />
-            </div>
+                <div className="col-12 col-md-6">
+                    <label htmlFor="price" className="form-label">
+                        Price
+                    </label>
+                    <input
+                        id="price"
+                        className="form-control"
+                        type="number"
+                        value={price}
+                        onChange={(event) => setPrice(event.target.value)}
+                        placeholder="Example: 49.99"
+                    />
+                </div>
 
-            <div>
-                <label htmlFor="image">Image URL</label>
-                <input
-                    id="image"
-                    type="text"
-                    value={image}
-                    onChange={(event) => setImage(event.target.value)}
-                />
-            </div>
+                <div className="col-12 col-md-6">
+                    <label htmlFor="category" className="form-label">
+                        Category
+                    </label>
+                    <input
+                        id="category"
+                        className="form-control"
+                        type="text"
+                        value={category}
+                        onChange={(event) => setCategory(event.target.value)}
+                        placeholder="Example: electronics"
+                    />
+                </div>
 
-            <button onClick={handleCreateProduct}>Create Product</button>
+                <div className="col-12">
+                    <label htmlFor="image" className="form-label">
+                        Image URL
+                    </label>
+                    <input
+                        id="image"
+                        className="form-control"
+                        type="text"
+                        value={image}
+                        onChange={(event) => setImage(event.target.value)}
+                        placeholder="https://placehold.co/150x150?text=Product"
+                    />
+                </div>
+
+                <div className="col-12">
+                    <label htmlFor="description" className="form-label">
+                        Description
+                    </label>
+                    <textarea
+                        id="description"
+                        className="form-control"
+                        rows={4}
+                        value={description}
+                        onChange={(event) => setDescription(event.target.value)}
+                        placeholder="Write a short product description."
+                    />
+                </div>
+
+                <div className="col-12">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleCreateProduct}
+                    >
+                        Create Product
+                    </button>
+                </div>
+            </div>
         </section>
     );
 }
