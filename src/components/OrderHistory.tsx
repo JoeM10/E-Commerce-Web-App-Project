@@ -8,6 +8,7 @@ interface OrderHistoryProps {
 
 export function OrderHistory({ userId }: OrderHistoryProps) {
     const [orders, setOrders] = useState<Order[]> ([]);
+    const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
     useEffect(() => {
         async function loadOrders() {
@@ -24,6 +25,57 @@ export function OrderHistory({ userId }: OrderHistoryProps) {
             <p>Your Orders:</p>
 
             {orders.length === 0 && <p>No orders found.</p>}
+
+            {orders.map((order) => (
+                <article key={order.id} className="section-card">
+                    <h3>Order ID: {order.id}</h3>
+
+                    <p>
+                        Date:{" "}
+                        {order.createdAt
+                            ? order.createdAt.toDate().toLocaleDateString()
+                            : "Date unavailable"}
+                    </p>
+
+                    <p>Total Items: {order.totalItems}</p>
+                    <p>Total Price: {order.totalPrice}</p>
+
+                    {selectedOrder?.id !== order.id && (
+                        <button
+                            type="button"
+                            onClick={() => setSelectedOrder(order)}
+                        >
+                            View Details
+                        </button>
+                    )}
+
+                    {selectedOrder?.id === order.id && (
+                        <section>
+                            <h4>Order Details</h4>
+                            <p>Total Price: ${order.totalPrice.toFixed(2)}</p>
+
+                            <h5>Products</h5>
+
+                            {order.items.map((item) => (
+                                <div key={item.id}>
+                                    <p>{item.title}</p>
+                                    <p>Quantity: {item.count}</p>
+                                    <p>Price Each: ${item.price.toFixed(2)}</p>
+                                    <p>Subtotal: ${(item.price * item.count).toFixed(2)}</p>
+                                </div>
+                            ))}
+
+                            <button
+                                type="button"
+                                onClick={() => setSelectedOrder(null)}
+                            >
+                                Close Details
+                            </button>
+                        </section>
+                    )}
+                </article>
+            ))}
+
         </section>
     );
 }

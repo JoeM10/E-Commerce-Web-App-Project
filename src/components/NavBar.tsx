@@ -1,6 +1,6 @@
-import { current } from "@reduxjs/toolkit";
 import type { User } from "firebase/auth";
 import { Link } from "react-router";
+import { useAppSelector } from "../app/hooks";
 
 interface NavBarProps {
     currentUser?: User | null;
@@ -8,6 +8,10 @@ interface NavBarProps {
 }
 
 export function NavBar({ currentUser, onLogout }: NavBarProps) {
+    const totalCartItems = useAppSelector((state) =>
+        state.cart.items.reduce((total, item) => total + item.count, 0)
+    )
+
     return (
         <nav className="navbar navbar-expand navbar-light bg-light px-3 mb-4">
         <Link to="/" className="navbar-brand">
@@ -23,12 +27,27 @@ export function NavBar({ currentUser, onLogout }: NavBarProps) {
             Create Product
             </Link>
 
+
             <Link to="/order-history" className="nav-link">
             Order History
             </Link>
 
             <Link to="/profile" className="nav-link">
                 Profile
+            </Link>
+
+            <Link
+                to="/cart"
+                className="nav-link position-relative"
+                aria-label="Shopping Cart"
+            >
+                <span aria-hidden="true">🛒</span>
+
+                {totalCartItems > 0 && (
+                    <span className="position-absolute top-40 start-100 translate-middle badge rounded-pill bg-danger">
+                        {totalCartItems}
+                    </span>
+                )}
             </Link>
         </div>
 

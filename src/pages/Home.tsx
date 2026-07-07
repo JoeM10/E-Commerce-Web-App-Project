@@ -104,14 +104,6 @@ function Home() {
                 <h2>Products</h2>
             </div>
 
-            <Link to="/create-product">
-                <button className="btn bg-warning">Create Product</button>
-            </Link>
-
-            <Link to="/order-history">
-                <button className="btn btn-info ms-2">Order History</button>
-            </Link>
-
             <div className="category-controls">
                 <label htmlFor="category" className="form-label">Choose a category: </label>
 
@@ -269,6 +261,14 @@ function Home() {
                     </article>
                 ))}
             </div>
+            
+            <Link to="/create-product">
+                <button className="btn bg-warning">Create Product</button>
+            </Link>
+
+            <Link to="/order-history">
+                <button className="btn btn-info ms-2">Order History</button>
+            </Link>
         </main>
     );
 }

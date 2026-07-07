@@ -1,5 +1,4 @@
 import Home from "./pages/Home";
-import { ShoppingCart } from "./components/ShoppingCart";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { auth } from "./firebaseConfig";
@@ -8,9 +7,10 @@ import Login from "./components/Login";
 import { logoutUser } from "./services/authServices";
 import { Routes, Route } from "react-router";
 import { NavBar } from "./components/NavBar";
-import { CreateProduct } from "./pages/CreateProduct";
+import { CreateProduct } from "./pages/CreateProductPage";
 import { OrderHistoryPage } from "./pages/OrderHistoryPage";
 import { ProfilePage } from "./pages/ProfilePage";
+import { CartPage } from "./pages/CartPage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -76,6 +76,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create-product" element={<CreateProduct />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route
             path="/order-history"
             element={
@@ -97,7 +98,6 @@ function App() {
             }
           />
         </Routes>
-        <ShoppingCart />
       </div>
     </div>
   );
