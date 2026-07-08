@@ -4,6 +4,7 @@ import {
     deleteDoc,
     doc,
     getDocs,
+    setDoc,
     updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebaseConfig";
@@ -53,4 +54,27 @@ export async function deleteProduct(productId: string) {
     const productDocRef = doc(db, "products", productId);
 
     await deleteDoc(productDocRef);
+}
+
+export async function importFakeStoreProducts(): Promise<number> {
+    const response = await fetch("https://fakestoreapi.com/products");
+
+    if (!response.ok) {
+        throw new Error("Failed to fetch FakeStore products.");
+    }
+
+    const fakeStoreProducts = (await response.json()) as Array<
+        Omit<Product, "id"> & {id: number | string }
+    >;
+
+    await Promise.all(
+        fakeStoreProducts.map((product) => {
+            const productDocRef = doc(db, "products", String(product.id));
+            const { id, ...productData } = product;
+
+            return setDoc(productDocRef, productData);
+        })
+    );
+
+    return fakeStoreProducts.length;
 }

@@ -46,7 +46,7 @@ export function OrderHistory({ userId }: OrderHistoryProps) {
                     </p>
 
                     <p>Total Items: {order.totalItems}</p>
-                    <p>Total Price: {order.totalPrice}</p>
+                    <p>Total Price: ${order.totalPrice}</p>
 
                     {selectedOrder?.id !== order.id && (
                         <button

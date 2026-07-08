@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createProduct } from "../services/productServices";
+import { createProduct, importFakeStoreProducts } from "../services/productServices";
 
 export function ProductForm() {
     const [title, setTitle] = useState("");
@@ -8,6 +8,7 @@ export function ProductForm() {
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
+    const [isImporting, setIsImporting] = useState(false);
 
     async function handleCreateProduct() {
         await createProduct({
@@ -30,6 +31,21 @@ export function ProductForm() {
         setSuccessMessage("Product created successfully!");
     }
 
+    async function handleImportFakeStoreProducts() {
+        try {
+            setIsImporting(true);
+            setSuccessMessage("");
+
+            const importedCount = await importFakeStoreProducts();
+
+            setSuccessMessage(`${importedCount} FakeStore products imported successfully!`);
+        } catch (error) {
+            console.error("FakeStore import failed:", error);
+            setSuccessMessage("Failed to import FakeStore products.");
+        } finally {
+            setIsImporting(false);
+        }
+    }
 
     return (
         <section className="section-card product-form-card">
@@ -113,13 +129,22 @@ export function ProductForm() {
                     />
                 </div>
 
-                <div className="col-12">
+                <div className="col-12 d-flex flex-wrap gap-2">
                     <button
                         type="button"
                         className="btn btn-primary"
                         onClick={handleCreateProduct}
                     >
                         Create Product
+                    </button>
+
+                    <button
+                        type="button"
+                        className="btn btn-outline-secondary"
+                        onClick={handleImportFakeStoreProducts}
+                        disabled={isImporting}
+                    >
+                        {isImporting ? "Importing..." : "Import FakeStore Products"}
                     </button>
                 </div>
             </div>

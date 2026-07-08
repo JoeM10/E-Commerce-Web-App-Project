@@ -22,6 +22,9 @@ function Home() {
     const [selectedCategory, setSelectedCategory] = useState("all")
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [isSavingProduct, setIsSavingProduct] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const productsPerPage = 8;
 
     const {
         data: products,
@@ -47,6 +50,13 @@ function Home() {
         queryKey: ["categories"],
         queryFn: getCategories,
     });
+
+    const totalPages = products ? Math.ceil(products.length / productsPerPage) : 0;
+
+    const startIndex = (currentPage -1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+
+    const visibleProducts = products?.slice(startIndex, endIndex);
 
     async function handleUpdateProduct() {
         if (!selectedProduct || isSavingProduct) {
@@ -113,7 +123,10 @@ function Home() {
                 <select
                     id="category"
                     value={selectedCategory}
-                    onChange={(event) => setSelectedCategory(event.target.value)}
+                    onChange={(event) => {
+                        setSelectedCategory(event.target.value);
+                        setCurrentPage(1);
+                    }}
                     disabled={categoriesLoading || categoriesIsError}
                 >
                     <option value="all">All Products</option>
@@ -230,7 +243,7 @@ function Home() {
             )}
 
             <div className="product-grid">
-                {products?.map((product) => (
+                {visibleProducts?.map((product) => (
                     <article className="product-card" key={product.id}>
                         <h3>{product.title}</h3>
                         <img
@@ -262,6 +275,32 @@ function Home() {
                 ))}
             </div>
             
+            {totalPages > 1 && (
+                <div className="d-flex justify-content-center align-items-center gap-3 mt-4">
+                    <button
+                        type="button"
+                        className="btn btn-outline-primary"
+                        disabled={currentPage === 1}
+                        onClick={() => setCurrentPage((page) => page - 1)}
+                    >
+                        Previous
+                    </button>
+
+                    <span>
+                        Page {currentPage} of {totalPages}
+                    </span>
+
+                    <button
+                        type="button"
+                        className="btn btn-outline-primary"
+                        disabled={currentPage === totalPages}
+                        onClick={() => setCurrentPage((page) => page + 1)}
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
+
             <div className="navigation-buttons mt-4 d-flex justify-content-between">
                 <div>
                     <Link to="/cart">

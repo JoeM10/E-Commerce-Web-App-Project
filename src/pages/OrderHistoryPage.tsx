@@ -1,5 +1,4 @@
 import { OrderHistory } from "../components/OrderHistory";
-import { Link } from "react-router";
 
 interface OrderHistoryPageProps {
     userId: string;
