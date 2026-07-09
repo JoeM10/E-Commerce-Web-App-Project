@@ -140,105 +140,112 @@ function Home() {
             </div>
             
             {selectedProduct && (
-                <section>
-                    <h2>Editing Product</h2>
+                <section className="product-edit-form">
+                    <h3>Editing Product</h3>
 
-                    <div>
-                        <label htmlFor="editTitle">Title</label>
-                        <input
-                            id="editTitle"
-                            type="text"
-                            value={selectedProduct.title}
-                            onChange={(event) =>
-                                setSelectedProduct({
-                                    ...selectedProduct,
-                                    title: event.target.value,
-                                })
-                            }
-                        />
+                    <div className="product-edit-grid">
+                        <div>
+                            <label className="form-label fw-semibold" htmlFor="editTitle">Title</label>
+                            <input
+                                className="form-control"
+                                id="editTitle"
+                                type="text"
+                                value={selectedProduct.title}
+                                onChange={(event) =>
+                                    setSelectedProduct({
+                                        ...selectedProduct,
+                                        title: event.target.value,
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="form-label fw-semibold" htmlFor="editPrice">Price</label>
+                            <input
+                                className="form-control"
+                                id="editPrice"
+                                type="number"
+                                value={selectedProduct.price}
+                                onChange={(event) =>
+                                    setSelectedProduct({
+                                        ...selectedProduct,
+                                        price: Number(event.target.value),
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="form-label fw-semibold" htmlFor="editDescription">Description</label>
+                            <textarea
+                                className="form-control"
+                                name="Edit Description"
+                                id="editDescription"
+                                value={selectedProduct.description}
+                                onChange={(event) =>
+                                    setSelectedProduct({
+                                        ...selectedProduct,
+                                        description: event.target.value,
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="form-label fw-semibold" htmlFor="editCategory">Category</label>
+                            <input
+                                className="form-control"
+                                id="editCategory"
+                                type="text"
+                                value={selectedProduct.category}
+                                onChange={(event) =>
+                                    setSelectedProduct({
+                                        ...selectedProduct,
+                                        category: event.target.value,
+                                    })
+                                }
+                            />
+                        </div>
+
+                        <div>
+                            <label className="form-label fw-semibold" htmlFor="editImage">Image URL</label>
+                            <input
+                                className="form-control"
+                                id="editImage"
+                                type="text"
+                                value={selectedProduct.image}
+                                onChange={(event) =>
+                                    setSelectedProduct({
+                                        ...selectedProduct,
+                                        image: event.target.value,
+                                    })
+                                }
+                            />
+                        </div>
+                        <div className="product-edit-actions d-flex flex-wrap gap-2 mt-3">
+                            <button
+                                onClick={handleUpdateProduct}
+                                disabled={isSavingProduct}
+                                className="btn btn-success mt-2"
+                            >
+                                {isSavingProduct ? "Saving..." : "Save Changes"}
+                            </button>
+                            <button
+                                onClick={() => setSelectedProduct(null)}
+                                className="btn btn-outline-secondary mt-2 ms-2"
+                            >
+                                Cancel Editing
+                            </button>
+
+                            <button
+                                onClick={() => handleDeleteProduct(selectedProduct.id)}
+                                className="btn btn-danger mt-2 ms-2"
+                            >
+                                Delete Product
+                            </button>
+                        </div>
                     </div>
-
-                    <div>
-                        <label htmlFor="editPrice">Price</label>
-                        <input
-                            id="editPrice"
-                            type="number"
-                            value={selectedProduct.price}
-                            onChange={(event) =>
-                                setSelectedProduct({
-                                    ...selectedProduct,
-                                    price: Number(event.target.value),
-                                })
-                            }
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="editDescription">Description</label>
-                        <textarea
-                            name="Edit Description"
-                            id="editDescription"
-                            value={selectedProduct.description}
-                            onChange={(event) =>
-                                setSelectedProduct({
-                                    ...selectedProduct,
-                                    description: event.target.value,
-                                })
-                            }
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="editCategory">Category</label>
-                        <input
-                            id="editCategory"
-                            type="text"
-                            value={selectedProduct.category}
-                            onChange={(event) =>
-                                setSelectedProduct({
-                                    ...selectedProduct,
-                                    category: event.target.value,
-                                })
-                            }
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="editImage">Image URL</label>
-                        <input
-                            id="editImage"
-                            type="text"
-                            value={selectedProduct.image}
-                            onChange={(event) =>
-                                setSelectedProduct({
-                                    ...selectedProduct,
-                                    image: event.target.value,
-                                })
-                            }
-                        />
-                    </div>
-
-                    <button
-                        onClick={handleUpdateProduct}
-                        disabled={isSavingProduct}
-                        className="btn btn-success mt-2"
-                    >
-                        {isSavingProduct ? "Saving..." : "Save Changes"}
-                    </button>
-
-                    <button
-                        onClick={() => setSelectedProduct(null)}
-                        className="btn btn-outline-secondary mt-2 ms-2"
-                    >
-                        Cancel Editing
-                    </button>
-
-                    <button
-                        onClick={() => handleDeleteProduct(selectedProduct.id)}
-                        className="btn btn-danger mt-2 ms-2"
-                    >
-                        Delete Product
-                    </button>
                 </section>
             )}
 
